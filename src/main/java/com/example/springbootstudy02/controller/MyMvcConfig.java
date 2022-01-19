@@ -1,0 +1,34 @@
+package com.example.springbootstudy02.controller;
+
+import com.example.springbootstudy02.config.LoginHandlerInterceptor;
+import com.example.springbootstudy02.config.MyLocaleResolver;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+//@EnableWebMvc
+public class MyMvcConfig implements WebMvcConfigurer {
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("index");
+        registry.addViewController("/index.html").setViewName("index");
+        registry.addViewController("/main.html").setViewName("dashboard");
+    }
+    //自定义的国际化组件就生效了
+    @Bean
+    public LocaleResolver localeResolver(){
+        return new MyLocaleResolver();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginHandlerInterceptor())
+                .addPathPatterns("/**")     //拦截所有的
+                .excludePathPatterns("/index.html","/","/user/login","/css/**","/js/**","/img/**");    //这些不拦截，注意要把静态资源加上
+    }
+}
