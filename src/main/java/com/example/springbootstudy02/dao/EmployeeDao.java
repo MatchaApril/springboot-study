@@ -34,7 +34,7 @@ public class EmployeeDao {
     //主键自增
     private static Integer initId = 1006;
     //增加一个员工
-    private void add(Employee employee){
+    public void add(Employee employee){
         if(employee.getId()==null)
             employee.setId(initId++);
         employee.setDepartment(departmentDao.getDepartmentById(employee.getDepartment().getId()));  //根据员工部门ID来增添一个部门
