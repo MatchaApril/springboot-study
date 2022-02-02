@@ -10,10 +10,10 @@
 
 		<title>Dashboard Template for Bootstrap</title>
 		<!-- Bootstrap core CSS --><!-- 若页面css失效，可能是路径的问题-->
-		<link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
-		<link th:href="@{css/dashboard.css}" rel="stylesheet">
+		<link th:href="@{/css/dashboard.css}" rel="stylesheet">
 		<style type="text/css">
 			/* Chart.js */
 			
@@ -51,39 +51,42 @@
 				<div th:replace="~{commons/commons::sidebar(active='list.html')}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<h2><a class="btn btn-sm btn-success" th:href="@{/emp}"> 添加员工</a> </h2>
 
-
-					<div class="table-responsive">
-						<table class="table table-striped table-sm">
-							<thead>
-								<tr>
-									<th>id</th>
-									<th>lastName</th>
-									<th>email</th>
-									<th>gender</th>
-									<th>department</th>
-									<th>birth</th>
-									<th>操作</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="emp:${emps}">
-									<td th:text="${emp.getId()}"></td>
-									<td>[[${emp.getLastName()}]]</td> <!--两种方式皆可 -->
-									<td th:text="${emp.getEmail()}"></td>
-									<td th:text="${emp.getGender()==0?'女':'男'}"></td>  <!--通过gender的值来判断男女 -->
-									<td th:text="${emp.getDepartment.getDepartmentName()}"></td>    <!--注意是两个get -->
-									<td th:text="${#dates.format(emp.getBirth(),'yyyy-MM-dd HH:mm:ss')}"></td>  <!--给日期改格式 -->
-									<td>
-										<a class="btn btn-sm btn-primary" th:href="@{/emp/{id}(id=${emp.getId()})}">编辑</a>
-										<a class="btn btn-sm btn-danger" th:href="@{/delemp/{id}(id=${emp.getId()})}">删除</a>
-									</td>
-
-								</tr>
-							</tbody>
-						</table>
-					</div>
+					<form th:action="@{/updateEmp}" method="post">
+						<input type="hidden" name="id" th:value="${emp.getId()}">
+						<div class="form-group">
+							<label>LastName</label>
+							<input th:value="${emp.getLastName()}" type="text" name="lastName" class="form-control" placeholder="yang">  <!--name的值要与数据库的数据名一致-->
+						</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input th:value="${emp.getEmail()}" type="email" name="email" class="form-control" placeholder="1111@qq.com">
+						</div>
+						<div class="form-group">
+							<label>Gender</label>
+							<div class="form-check form-check-inline">
+								<input th:checked="${emp.getGender()==1}" class="form-check-input" type="radio" name="gender" value="1">
+								<label class="form-check-label">男</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input th:checked="${emp.getGender()==0}" class="form-check-input" type="radio" name="gender" value="0">
+								<label class="form-check-label">女</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>department</label>
+							<select class="form-control" name="department.id">
+								<!--我们在controller接受的是一个employee，所以需要提交的是其中的一个属性-->
+								<option th:selected="${dept.getId()==emp.getDepartment().getId()}" th:each="dept:${departments}" th:text="${dept.getDepartmentName()}"
+										th:value="${dept.getId()}"></option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>Birth</label>
+							<input th:value="${#dates.format(emp.getBirth(),'yyyy-MM-dd HH:mm')}" type="text" name="birth" class="form-control" placeholder="study">
+						</div>
+						<button type="submit" class="btn btn-primary">修改</button>
+					</form>
 				</main>
 			</div>
 		</div>

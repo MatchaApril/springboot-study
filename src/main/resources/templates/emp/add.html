@@ -10,10 +10,10 @@
 
 		<title>Dashboard Template for Bootstrap</title>
 		<!-- Bootstrap core CSS --><!-- 若页面css失效，可能是路径的问题-->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
-		<link href="css/dashboard.css" rel="stylesheet">
+		<link th:href="@{/css/dashboard.css}" rel="stylesheet">
 		<style type="text/css">
 			/* Chart.js */
 			
@@ -55,7 +55,7 @@
 					<form th:action="@{/emp}" method="post">
 						<div class="form-group">
 							<label>LastName</label>
-							<input type="email" name="lastName" class="form-control" placeholder="yang">  <!--name的值要与数据库的数据名一致-->
+							<input type="text" name="lastName" class="form-control" placeholder="yang">  <!--name的值要与数据库的数据名一致-->
 						</div>
 						<div class="form-group">
 							<label>Email</label>
@@ -82,7 +82,7 @@
 						</div>
 						<div class="form-group">
 							<label>Birth</label>
-							<input type="text" name="birth" class="form-control" placeholder="study">
+							<input type="text" name="birth" class="form-control" placeholder="2020-2-2 17:22:11">
 						</div>
 						<button type="submit" class="btn btn-primary">添加</button>
 					</form>

@@ -10,10 +10,10 @@
 
 		<title>Dashboard Template for Bootstrap</title>
 		<!-- Bootstrap core CSS --><!-- 若页面css失效，可能是路径的问题-->
-		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link th:href="@{css/bootstrap.min.css}" rel="stylesheet">
 
 		<!-- Custom styles for this template -->
-		<link href="css/dashboard.css" rel="stylesheet">
+		<link th:href="@{css/dashboard.css}" rel="stylesheet">
 		<style type="text/css">
 			/* Chart.js */
 			
@@ -76,8 +76,8 @@
 									<td th:text="${emp.getDepartment.getDepartmentName()}"></td>    <!--注意是两个get -->
 									<td th:text="${#dates.format(emp.getBirth(),'yyyy-MM-dd HH:mm:ss')}"></td>  <!--给日期改格式 -->
 									<td>
-										<button class="btn btn-sm btn-primary">编辑</button>
-										<button class="btn btn-sm btn-danger">删除</button>
+										<a class="btn btn-sm btn-primary" th:href="@{/emp/{id}(id=${emp.getId()})}">编辑</a>
+										<a class="btn btn-sm btn-danger" th:href="@{/delemp/{id}(id=${emp.getId()})}">删除</a>
 									</td>
 
 								</tr>
